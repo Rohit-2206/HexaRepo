@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import com.hexaware.dao.IHospitalServiceImpl;
 import com.hexaware.entity.Appointment;
+import com.hexaware.exception.PatientNumberNotFoundException;
 
 public class HospitalServiceImpl {
 	
@@ -32,14 +33,14 @@ public class HospitalServiceImpl {
 		}
 	}
 	
-	public List<Appointment> getAppointmentsForPatient(int patientId) {
+	public List<Appointment> getAppointmentsForPatient(int patientId) throws PatientNumberNotFoundException {
 		System.out.println("Enter the Patient ID to view appointment details");
 		patientId = read.nextInt();
 		
 		List<Appointment> appointments = ihs.getAppointmentsForPatient(patientId);
 
         if (appointments.isEmpty()) {
-            System.out.println("No appointments found for the given Patient ID.");
+            throw new PatientNumberNotFoundException();
         } else {
             System.out.println("Appointments for Patient ID: " + patientId);
             for (Appointment app : appointments) {
@@ -77,6 +78,7 @@ public class HospitalServiceImpl {
     }
 	
 	public boolean scheduleAppointment(Appointment app) {
+		
 		System.out.println("Enter PatientID");
 		int patientId = read.nextInt();
 	    app.setPatientId(patientId);
@@ -97,9 +99,10 @@ public class HospitalServiceImpl {
 	}
 	
 	public void updateAppoinment(Appointment app) {
-		System.out.println("Enter PatientID");
-		int patientId = read.nextInt();
-	    app.setPatientId(patientId);
+		
+		System.out.println("Enter your appointment ID");
+		int appointmentId = read.nextInt();
+		app.setAppointmentId(appointmentId);
 	    
 		System.out.println("Enter DoctorID");
 		int doctorId = read.nextInt();
