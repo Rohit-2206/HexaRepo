@@ -86,7 +86,43 @@ public class TaxService implements ITaxService {
 	 */
 	
 	@Override
-	public double taxCalculator(int employeeId, int year) {
+	public void taxCalculator(int employeeId, int year) {
+	    System.out.println("Enter the employee ID");
+	    employeeId = read.nextInt();
+
+	    if (esdb.isValidEmployee(employeeId)) {
+	        System.out.println("Enter the year to calculate tax");
+	        year = read.nextInt();
+
+	        try {
+	            double paidAmount = txdb.calculateTax(employeeId, year);
+
+	            if (paidAmount == 0.0) {
+	                throw new TaxCalculationException();
+	            } else if (paidAmount < 250000) {
+	                System.out.println("Tax Amount : 0.0");
+	            } else if (paidAmount <= 500000) {
+	            	System.out.println("Tax Amount: "+(paidAmount - 250000) * 0.05); 
+	            } else if (paidAmount <= 750000) {
+	            	System.out.println("Tax Amount: "+(paidAmount - 250000) * 0.10); 
+	            } else if (paidAmount <= 1000000) {
+	            	System.out.println("Tax Amount: "+(paidAmount - 250000) * 0.20); 
+	            } else {
+	            	System.out.println("Tax Amount: "+(paidAmount - 250000) * 0.30); 
+	            }
+	        } catch (TaxCalculationException e) {
+	            System.out.println(e.getMessage());
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        catch (InputMismatchException e) {
+	        	System.out.println("Invalid Input");	        }
+	    } else {
+	        System.out.println("Invalid Employee ID");
+	    }
+	}
+	
+	public double taxCalculatorForTest(int employeeId, int year) {
 	    System.out.println("Enter the employee ID");
 	    employeeId = read.nextInt();
 
@@ -104,11 +140,11 @@ public class TaxService implements ITaxService {
 	            } else if (paidAmount <= 500000) {
 	                return (paidAmount - 250000) * 0.05; 
 	            } else if (paidAmount <= 750000) {
-	                return (paidAmount - 500000) * 0.10; 
+	                return (paidAmount - 250000) * 0.10; 
 	            } else if (paidAmount <= 1000000) {
-	                return (paidAmount - 750000) * 0.20; 
+	                return (paidAmount - 250000) * 0.20; 
 	            } else {
-	                return (paidAmount - 1000000) * 0.30; 
+	                return (paidAmount - 250000) * 0.30; 
 	            }
 	        } catch (TaxCalculationException e) {
 	            System.out.println(e.getMessage());
