@@ -141,11 +141,11 @@ public class EmployeeService implements IEmployeeService {
 	 *
 	 * @return A message indicating the success or failure of the employee updation.
 	 */
-	@Override
+		@Override
 	public String updateEmployee() {
 
 		emp = new Employee();
-
+		try {
 		System.out.println("Enter the EmployeeId to update");
 		int employeeId = read.nextInt();
 		emp.setEmployeeId(employeeId);
@@ -251,8 +251,11 @@ public class EmployeeService implements IEmployeeService {
 		System.out.println("***********");
 		System.out.println("Not a Valid Employee");
 		System.out.println("***********");
-		return "";
 		}
+		}catch (InputMismatchException e) {
+			System.out.println("Invalid Input!!!");
+		}
+		return null;
 	}
 	/**
 	 * Removes an employee based on the provided employee ID.
