@@ -24,7 +24,7 @@ public class TaxTest {
 		
 		TaxService tx = new TaxService();
 		Tax t = new Tax();
-		double calculatedTax = tx.taxCalculator(t.getEmployeeId(), t.getTaxYear());
+		double calculatedTax = tx.taxCalculatorForTest(t.getEmployeeId(), t.getTaxYear());
 	    double expectedTax = 6740.0;
 
 	    assertEquals(expectedTax, calculatedTax, 0.01);
